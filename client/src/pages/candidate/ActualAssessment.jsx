@@ -70,16 +70,6 @@ const ActualAssessment = () => {
           setTimeLeft(30 * 60);
         }
 
-        // Initialize Webcam Stream for Proctored Widget & Snapshots
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-          streamRef.current = stream;
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-          }
-        } catch (camErr) {
-          console.warn('Webcam stream initialization warning:', camErr);
-        }
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to initialize assessment test.');
       } finally {
@@ -88,13 +78,33 @@ const ActualAssessment = () => {
     };
 
     initializeTest();
+  }, [token, navigate]);
+
+  // Initialize Webcam Stream after component mounts & loading finishes
+  useEffect(() => {
+    if (loading) return;
+
+    const initCamera = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        streamRef.current = stream;
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          videoRef.current.play().catch(() => {});
+        }
+      } catch (camErr) {
+        console.warn('Webcam stream initialization warning:', camErr);
+      }
+    };
+
+    initCamera();
 
     return () => {
       if (streamRef.current) {
         streamRef.current.getTracks().forEach(track => track.stop());
       }
     };
-  }, [token, navigate]);
+  }, [loading]);
 
   // Request Fullscreen on Mount
   useEffect(() => {
