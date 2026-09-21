@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { getApiUrl } from '../../services/api';
 import { 
   Play, 
   HelpCircle, 
@@ -43,7 +44,7 @@ const CandidateLanding = () => {
   useEffect(() => {
     const fetchAssessment = async () => {
       try {
-        const res = await axios.get(`/api/assessment/${token}`);
+        const res = await axios.get(getApiUrl(`/assessment/${token}`));
         setAssessment(res.data);
 
         // If already completed, redirect to completed page

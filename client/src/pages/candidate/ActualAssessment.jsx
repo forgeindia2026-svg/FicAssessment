@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { getApiUrl } from '../../services/api';
 import { 
   Clock, 
   CheckCircle2, 
@@ -47,7 +48,7 @@ const ActualAssessment = () => {
   useEffect(() => {
     const initializeTest = async () => {
       try {
-        const res = await axios.post(`/api/assessment/${token}/start`);
+        const res = await axios.post(getApiUrl(`/assessment/${token}/start`));
         const data = res.data;
 
         if (data.status === 'COMPLETED') {
@@ -175,7 +176,7 @@ const ActualAssessment = () => {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         const imageData = canvas.toDataURL('image/jpeg', 0.6);
 
-        await axios.post(`/api/assessment/${token}/snapshot`, { imageData });
+        await axios.post(getApiUrl(`/assessment/${token}/snapshot`), { imageData });
       } catch (snapErr) {
         console.warn('Snapshot capture warning:', snapErr);
       }
@@ -199,7 +200,7 @@ const ActualAssessment = () => {
       setShowWarningModal(true);
 
       try {
-        await axios.post(`/api/assessment/${token}/warning`, {
+        await axios.post(getApiUrl(`/assessment/${token}/warning`), {
           reason,
           gazeAlertCount
         });
@@ -216,7 +217,7 @@ const ActualAssessment = () => {
       const finalReason = `${reason} (2nd Violation - Test Terminated)`;
 
       try {
-        await axios.post(`/api/assessment/${token}/submit`, {
+        await axios.post(getApiUrl(`/assessment/${token}/submit`), {
           malpracticeDetected: true,
           malpracticeReason: finalReason,
           terminationType: 'MALPRACTICE_AUTO_TERMINATED'
@@ -297,7 +298,7 @@ const ActualAssessment = () => {
     }));
 
     try {
-      await axios.post(`/api/assessment/${token}/answer`, {
+      await axios.post(getApiUrl(`/assessment/${token}/answer`), {
         questionId: qId,
         selectedAnswer: optionKey
       });
@@ -314,7 +315,7 @@ const ActualAssessment = () => {
     setShowSubmitModal(false);
 
     try {
-      await axios.post(`/api/assessment/${token}/submit`, {
+      await axios.post(getApiUrl(`/assessment/${token}/submit`), {
         malpracticeDetected: false,
         terminationType: 'NORMAL_SUBMIT'
       });

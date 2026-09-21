@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import { getApiUrl } from '../../services/api';
 import { CheckCircle, AlertTriangle, ShieldAlert, Award, Clock, FileText, CheckCircle2, XCircle } from 'lucide-react';
 
 const AssessmentCompleted = () => {
@@ -16,7 +17,7 @@ const AssessmentCompleted = () => {
 
   useEffect(() => {
     if (token) {
-      axios.get(`/api/assessment/${token}`)
+      axios.get(getApiUrl(`/assessment/${token}`))
         .then(res => {
           const data = res.data;
           setAssessmentResult(data);
