@@ -1,0 +1,26 @@
+/* Tailwind CSS Directive imports */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#fff8f7] text-[#311213] font-sans min-h-screen antialiased;
+  }
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #fff0f0;
+}
+::-webkit-scrollbar-thumb {
+  background: #e2bfb9;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8e706c;
+}

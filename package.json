@@ -1,0 +1,23 @@
+{
+  "name": "fic-assessment-platform",
+  "version": "1.0.0",
+  "description": "FIC Assessment Platform - End-to-End MERN Application",
+  "main": "server/server.js",
+  "scripts": {
+    "dev": "npm --prefix client run dev",
+    "dev:client": "npm --prefix client run dev",
+    "dev:server": "node server/server.js",
+    "build": "npm --prefix client run build",
+    "start": "node server/server.js"
+  },
+  "keywords": [
+    "mern",
+    "assessment",
+    "react",
+    "express",
+    "mongodb",
+    "node"
+  ],
+  "author": "FIC Team",
+  "license": "ISC"
+}
